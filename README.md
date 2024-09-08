@@ -12,14 +12,14 @@ Key Features:
 5. Project creation and joining sessions
     
 Tech Stack
-Frontend:
-    React.js for building the user interface
-    Socket.io for real-time communication
+1. Frontend:
+    a. React.js for building the user interface
+    b. Socket.io for real-time communication
     CodeMirror or Monaco Editor for the code editor
-Backend:
+3. Backend:
         Node.js and Express for API development
         Socket.io for WebSocket communication
         MongoDB for user data and project storage
-    Other Tools:
+4. Other Tools:
         JWT for authentication
         bcrypt.js for password hashing
