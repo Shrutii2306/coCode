@@ -10,6 +10,7 @@ Key Features:
     3. Basic text chat for communication
     4. Simple code editor interface (syntax highlighting)
     5. Project creation and joining sessions
+    
 Tech Stack
     Frontend:
         React.js for building the user interface
