@@ -13,13 +13,7 @@ Key Features:
     
 Tech Stack
 1. Frontend:
-    a. React.js for building the user interface
-    b. Socket.io for real-time communication
-    CodeMirror or Monaco Editor for the code editor
+    React.js, Socket.io, CodeMirror.
 3. Backend:
-        Node.js and Express for API development
-        Socket.io for WebSocket communication
-        MongoDB for user data and project storage
-4. Other Tools:
-        JWT for authentication
-        bcrypt.js for password hashing
+    Node.js and Express, Socket.io, MongoDB.
+5. Other Tools: JWT for authentication, bcrypt.js for password hashing.
