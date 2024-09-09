@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { getUsers } from "../api/users";
 import { Link } from "react-router-dom";
 const Header = () =>{
     
