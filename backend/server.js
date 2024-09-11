@@ -2,9 +2,8 @@ require('dotenv').config();
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
-const User = require('./schemas/user');
 const app = express();
-
+const routes = require('./route/routes');
 const PORT = process.env.PORT || 5000;
 
 // Middleware
@@ -20,37 +19,37 @@ mongoose.connect(uri,{dbName: 'CoCode'})
         .catch(err => console.log(err));
 
 // Sample route
-// app.use('/',routes);
+app.use('/',routes);
 
-app.post('/users', async (req, res) => {
+// app.post('/users', async (req, res) => {
 
-    const {name, email, password} = req.body;
-    console.log(name,email, password);
-    try{
+//     const {name, email, password} = req.body;
+//     console.log(name,email, password);
+//     try{
 
-        const user = new User({name, email, password});
-        await user.save();
-        res.send(user);
+//         const user = new User({name, email, password});
+//         await user.save();
+//         res.send(user);
 
-    }catch(err){
+//     }catch(err){
 
-        console.log(err);
-        res.status(500).send(err);
-    }
-});
+//         console.log(err);
+//         res.status(500).send(err);
+//     }
+// });
 
-app.get('/users', async(req, res) => {
+// app.get('/users', async(req, res) => {
 
-    try{
+//     try{
 
-        const users = await User.find({});
-        res.send(users);
-    }catch(err){
+//         const users = await User.find({});
+//         res.send(users);
+//     }catch(err){
 
-        console.log(err);
-        res.status(500).send(err);
-    }
-})
+//         console.log(err);
+//         res.status(500).send(err);
+//     }
+// })
 
 app.get('/',(req, res) =>{
 

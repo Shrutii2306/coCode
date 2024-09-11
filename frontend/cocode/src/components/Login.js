@@ -1,12 +1,25 @@
 import {useState}  from 'react';
+import { useNavigate } from 'react-router-dom';
+import { loginUser } from '../api/users';
+
 const Login = () =>{
 
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
+    const navigate = useNavigate();
 
-    const submit = () => {
+    const submit = async() => {
 
-        console.log(email,password);
+        const res = await loginUser({email, password});
+
+        if(res.userId){
+
+            navigate('/home');
+        }
+        else{
+
+            alert(res.message);
+        }
     }
 
     return(

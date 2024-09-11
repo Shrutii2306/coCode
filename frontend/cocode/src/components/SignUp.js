@@ -1,16 +1,22 @@
 import React, { useState } from 'react'
 import { registerUsers } from '../api/users';
-
+import {Navigate, useNavigate} from "react-router-dom";
 export default function SignUp() {
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPass, setConfirmPass] = useState('');
+    const navigate = useNavigate();
+    const submit = async() => {
 
-    const submit = () => {
+        const res = await registerUsers({name, email, password});
+        alert(res);
+        if(res.userId){
 
-        registerUsers({name, email, password});
+            navigate('/home');
+        }
+
     }
   return (
     <div>
