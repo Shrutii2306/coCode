@@ -18,9 +18,9 @@ const Header = () =>{
 
     return(
 
-        <div className="header">
+        <div className="flex justify-between">
             <div className="title">CoCode</div>
-            <div className="leftMenu">
+            <div className="flex">
 
                 { !token?
                     <>

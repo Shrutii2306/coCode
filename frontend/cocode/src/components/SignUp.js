@@ -19,25 +19,31 @@ export default function SignUp() {
 
     }
   return (
-    <div>
-        <div>SignUp</div>
-        <div>
-            Name: 
-            <input type='text' value={name} onChange={e => setName(e.target.value)}/>
+    <div className='text-center pt-6'>
+        <div className='text-2xl font-semibold m-2'>SignUp</div>
+        <div className='p-2 w-fit m-auto flex flex-col items-start'>
+            <div >
+                Name: 
+                <input className='border border-black m-2' type='text' value={name} onChange={e => setName(e.target.value)}/>
+            </div>
+            <div>
+                Email: 
+                <input type='text' className='border border-black m-2' value={email} onChange={e => setEmail(e.target.value)}/>
+            </div>
+            <div>
+                Password: 
+                <input type='text' className='border border-black m-2' value={password} onChange={e => setPassword(e.target.value)}/>
+            </div>
+            <div>
+                Confirm Password: 
+                <input type='text' className='border border-black m-2' value={confirmPass} onChange={e => setConfirmPass(e.target.value)}/>
+            </div>
+            <div className='m-auto'>
+                <button className='border border-black p-1 rounded-md hover:bg-gray-200'  onClick={submit}>Submit</button>
+            </div>
+            
         </div>
-        <div>
-            Email: 
-            <input type='text' value={email} onChange={e => setEmail(e.target.value)}/>
-        </div>
-        <div>
-            Password: 
-            <input type='text' value={password} onChange={e => setPassword(e.target.value)}/>
-        </div>
-        <div>
-            Confirm Password: 
-            <input type='text' value={confirmPass} onChange={e => setConfirmPass(e.target.value)}/>
-        </div>
-        <button onClick={submit}>Submit</button>
+        
     </div>
   )
 }

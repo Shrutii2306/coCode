@@ -24,19 +24,23 @@ const Login = () =>{
 
     return(
 
-        <div>
-            Register
-            <div>
-                Email
-                <input type='text' value={email} onChange={e =>setEmail(e.target.value)}/>
+        <div className='text-center pt-6'>
+            <span className='text-2xl font-semibold p-2'>Login</span>
+            <div className='flex flex-col items-start w-fit m-auto'>
+                <div>
+                    Email
+                    <input className='m-2 border border-black' type='text' value={email} onChange={e =>setEmail(e.target.value)}/>
+                </div>
+                <div>
+                    Password
+                    <input className='m-2 border border-black' type ="password" value={password} onChange={e => setPassword(e.target.value)}/>
+                </div>
+                <div className='m-auto'>
+                    <button className='border border-black rounded-md p-1 hover:bg-gray-200' onClick={submit}>
+                        Submit
+                    </button>
+                </div>
             </div>
-            <div>
-                Password
-                <input type ="password" value={password} onChange={e => setPassword(e.target.value)}/>
-            </div>
-            <button onClick={submit}>
-                Submit
-            </button>
         </div>
     )
 }
