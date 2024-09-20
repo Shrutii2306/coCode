@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { registerUsers } from '../api/users';
-import {Navigate, useNavigate} from "react-router-dom";
+import { registerUser } from '../hooks/users';
+import { useNavigate} from "react-router-dom";
 export default function SignUp() {
 
     const [name, setName] = useState('');
@@ -8,10 +8,21 @@ export default function SignUp() {
     const [password, setPassword] = useState('');
     const [confirmPass, setConfirmPass] = useState('');
     const navigate = useNavigate();
+
     const submit = async() => {
 
-        const res = await registerUsers({name, email, password});
-        alert(res);
+        if(password != confirmPass){
+
+            alert("passwords do not match!");
+            return;
+        }
+        if(!name || !email || !password){
+
+            alert("All inputs are required!");
+            return;
+        }
+        const res = await registerUser({name, email, password});
+        // alert(res);
         if(res.userId){
 
             navigate('/home');
@@ -24,15 +35,15 @@ export default function SignUp() {
         <div className='p-2 w-fit m-auto flex flex-col items-start'>
             <div >
                 Name: 
-                <input className='border border-black m-2' type='text' value={name} onChange={e => setName(e.target.value)}/>
+                <input className='px-1 border border-black m-2' type='text' value={name} onChange={e => setName(e.target.value)}/>
             </div>
             <div>
                 Email: 
-                <input type='text' className='border border-black m-2' value={email} onChange={e => setEmail(e.target.value)}/>
+                <input type='px-1 text' className='border border-black m-2' value={email} onChange={e => setEmail(e.target.value)}/>
             </div>
             <div>
                 Password: 
-                <input type='text' className='border border-black m-2' value={password} onChange={e => setPassword(e.target.value)}/>
+                <input type='px-1 text' className='border border-black m-2' value={password} onChange={e => setPassword(e.target.value)}/>
             </div>
             <div>
                 Confirm Password: 

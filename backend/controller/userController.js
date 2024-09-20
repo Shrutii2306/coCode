@@ -69,7 +69,7 @@ const loginUser = async(req, res)=>{
 
         //  find user in DB
         const user = await User.findOne({email});
-
+        
         // if user is not present
         if(!(user && (await bcrypt.compare(password,user.password)))){
 

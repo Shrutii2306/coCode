@@ -18,8 +18,8 @@ const Header = () =>{
 
     return(
 
-        <div className="flex justify-between">
-            <div className="title">CoCode</div>
+        <div className="flex justify-between border-b border-gray-200 items-center h-14 px-6">
+            <div className="text-xl font-semibold">CoCode</div>
             <div className="flex">
 
                 { !token?

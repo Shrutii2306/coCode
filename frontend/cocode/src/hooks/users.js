@@ -15,8 +15,9 @@ export const getUsers = async() => {
     console.log(response);
 }
 
-export const registerUsers = async({name, email, password}) => {
+export const registerUser = async({name, email, password}) => {
 
+    
     const body = JSON.stringify({
         name,
         email,
@@ -43,7 +44,6 @@ export const registerUsers = async({name, email, password}) => {
             
             console.log(res);
             localStorage.setItem("jwtToken",res.jwtToken);
-            
             return(res);
             
         }
@@ -63,45 +63,52 @@ export const registerUsers = async({name, email, password}) => {
 
 export const loginUser = async({email, password}) => {
 
-    const body = JSON.stringify({
-        email,
-        password
-    });
+        if(!email || !password){
 
-    console.log(email,password);
-    
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    const requestOptions = {
-
-        method : "POST",
-        headers : myHeaders,
-        body : body,
-        redirect : "follow"
-    };
-
-    try{
-
-        const response = await fetch(LOGIN_URL, requestOptions)
-        const res = await response.json();
-        
-        if(response.ok){
-
-            console.log(res);
-            localStorage.setItem("jwtToken", res.token);
-            return(res);
-
-        }else{
-
-            console.log(res);
-            return(res);
+            alert("Email and Password required!");
+            return;
         }
-
-    }catch(err){
-
-        console.log(err);
-        return("Something went wrong!");
-    }
+        const body = JSON.stringify({
+            email,
+            password
+        });
+    
+        console.log(email,password);
+        
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+    
+        const requestOptions = {
+    
+            method : "POST",
+            headers : myHeaders,
+            body : body,
+            redirect : "follow"
+        };
+    
+        try{
+    
+            const response = await fetch(LOGIN_URL, requestOptions)
+            const res = await response.json();
+            
+            if(response.ok){
+    
+                console.log(res);
+                localStorage.setItem("jwtToken", res.token);
+                return res;
+    
+            }else{
+    
+                console.log(res);
+                return(res);
+            }
+    
+        }catch(err){
+    
+            console.log(err);
+            return(err);
+        }
+    
 }
+
 
