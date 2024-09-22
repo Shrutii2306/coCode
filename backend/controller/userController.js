@@ -1,4 +1,4 @@
-const User = require('../schema/user');
+const User = require('../model/user');
 const {createSecretToken} = require('../tokenGeneration/generateToken');
 const bcrypt = require("bcrypt");
 
@@ -55,6 +55,36 @@ const getUsers = async(req, res) => {
     }
 }
 
+const getUser = async(req, res) => {
+
+    const userId = req.user.id;
+
+    try{
+
+        // find an user with the matching id
+        const isUser = await User.findById(req.user.id);
+
+        if(!isUser){
+
+            return res.status(404).send({message : "user not found!"});
+
+        }
+
+        const user = {
+
+            uid : userId,
+            name : isUser.name,
+            email : isUser.email
+        }
+        
+        res.status(202).json(user);
+
+    }catch(err){
+
+        res.send(err);
+    }
+}
+
 const loginUser = async(req, res)=>{
 
     try{
@@ -69,7 +99,7 @@ const loginUser = async(req, res)=>{
 
         //  find user in DB
         const user = await User.findOne({email});
-        
+
         // if user is not present
         if(!(user && (await bcrypt.compare(password,user.password)))){
 
@@ -90,5 +120,5 @@ const loginUser = async(req, res)=>{
 
     }
 }
-module.exports = {signupUser, getUsers, loginUser};
+module.exports = {signupUser, getUsers, loginUser, getUser};
 // export default signupUser;

@@ -1,6 +1,23 @@
-import { GET_USERS, REGISTER_URL, LOGIN_URL } from "../utils/constants";
+import { useSelector } from "react-redux";
+import { GET_USERS, REGISTER_URL, LOGIN_URL, USER_DETAILS_URL } from "../utils/constants";
+import { useEffect, useState } from "react";
 
 export const getUsers = async() => {
+
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow"
+    };
+
+    const response = await fetch(GET_USERS , requestOptions);
+    console.log(response);
+}
+
+export const getUser = async() => {
 
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -93,8 +110,10 @@ export const loginUser = async({email, password}) => {
             
             if(response.ok){
     
-                console.log(res);
-                localStorage.setItem("jwtToken", res.token);
+                console.log("res",res);
+                localStorage.setItem("jwtToken", JSON.stringify(res.jwtToken));
+                
+                console.log( localStorage)
                 return res;
     
             }else{
@@ -111,4 +130,73 @@ export const loginUser = async({email, password}) => {
     
 }
 
+// export const useLoggedInUser = () =>{
 
+//     const [jwtToken, setToken] = useState('');
+
+//     useEffect(()=>{
+
+//         getToken();
+//     },[]);
+
+//     const getToken = async() =>{
+
+//         const token = await localStorage.getItem('jwtToken');
+//         console.log(token);
+//         setToken(token);
+//     }
+
+
+//     return jwtToken;
+
+// }
+
+export const useGetUser = () => {
+
+    const [user, setUser] = useState({});
+
+    useEffect(() => {
+        fetchUser();
+    },[]);
+
+    const fetchUser = async () =>{
+
+        const token = JSON.parse(localStorage.getItem('jwtToken'));
+        const TOKEN = "Bearer "+token;
+        console.log(TOKEN);
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization",TOKEN);
+        
+        const requestOptions = {
+          method: "GET",
+          headers: myHeaders,
+          redirect: "follow"
+        };
+
+        try{
+
+            const res = await fetch(USER_DETAILS_URL,requestOptions);
+            
+            if(res.ok){
+
+                const response = await res.json()
+                console.log(response)
+                setUser(response);
+            }
+            else{
+
+                return "Something went wrong";
+            }
+        
+        }catch(err){
+
+            console.log(err);
+            return "Something went Wrong";
+        }
+
+    }
+
+    return user;
+
+}

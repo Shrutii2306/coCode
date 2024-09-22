@@ -21,6 +21,7 @@ const Login = () =>{
         if(res.userId){
 
             navigate('/home');
+            
         }
         else{
 
