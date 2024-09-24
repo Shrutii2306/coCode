@@ -8,6 +8,7 @@ import SignUp from './components/SignUp';
 import Login from './components/Login';
 import Error from './components/Error';
 import { Home } from './components/Home';
+import Session from './components/Session';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 const appRouter = createBrowserRouter([
@@ -29,6 +30,11 @@ const appRouter = createBrowserRouter([
         path: "/home",
         element: <Home/>,
         errorElement: <Error />
+      },
+      {
+        path: "/session/:id",
+        element : <Session />,
+        errorElement: <Error/>
       }
     ],
     errorElement: <Error/>

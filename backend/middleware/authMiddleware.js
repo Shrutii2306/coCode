@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 
-function verifyToken (req, res, getUser) {
+function verifyToken (req, res, next) {
 
     // get the Bearer from the header of the request
     const authHeader = req.headers['authorization'];
@@ -17,9 +17,9 @@ function verifyToken (req, res, getUser) {
     // verify the token using token key and if invalid return the error else return the decrypted info retreived from the token and call the method to fetch userdata from DB
     jwt.verify(token, process.env.TOKEN_KEY, (err, user) => {
       if (err) return res.status(403).json({ message: 'Invalid token' });
-  
+        console.log("inside veriy token");
       req.user = user;
-      getUser();
+      next();
     });
 }
 

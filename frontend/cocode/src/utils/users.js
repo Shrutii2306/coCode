@@ -1,7 +1,7 @@
-import { useSelector } from "react-redux";
-import { GET_USERS, REGISTER_URL, LOGIN_URL, USER_DETAILS_URL } from "../utils/constants";
+import { useDispatch, useSelector } from "react-redux";
+import { GET_USERS, REGISTER_URL, LOGIN_URL, USER_DETAILS_URL } from "./constants";
 import { useEffect, useState } from "react";
-
+import { setUser } from "../redux/userSlice";
 export const getUsers = async() => {
 
     const myHeaders = new Headers();
@@ -153,8 +153,8 @@ export const loginUser = async({email, password}) => {
 
 export const useGetUser = () => {
 
-    const [user, setUser] = useState({});
-
+    const [userData, setUserData] = useState({});
+    const dispatch = useDispatch();
     useEffect(() => {
         fetchUser();
     },[]);
@@ -181,8 +181,9 @@ export const useGetUser = () => {
             if(res.ok){
 
                 const response = await res.json()
-                console.log(response)
-                setUser(response);
+                console.log("response",response)
+                setUserData(response);
+                dispatch(setUser(response));
             }
             else{
 
@@ -197,6 +198,6 @@ export const useGetUser = () => {
 
     }
 
-    return user;
+    return userData;
 
 }

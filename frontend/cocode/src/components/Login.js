@@ -1,6 +1,6 @@
 import {useState}  from 'react';
 import { useNavigate, useSubmit } from 'react-router-dom';
-import { loginUser } from '../hooks/users';
+import { loginUser } from '../utils/users';
 
 const Login = () =>{
 

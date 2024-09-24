@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { registerUser } from '../hooks/users';
+import { registerUser } from '../utils/users';
 import { useNavigate} from "react-router-dom";
 export default function SignUp() {
 
