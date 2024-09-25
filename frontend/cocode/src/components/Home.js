@@ -8,9 +8,10 @@ import JoinSessionPopUp from './JoinSessionPopUp';
 export const Home = () => {
 
     const navigate = useNavigate();
-    const currentUser = useGetUser();
+    
     const token = localStorage.getItem("jwtToken");
     const user = useSelector((store) => store.user);
+    const currentUser = useGetUser();
     const { sessionPopup, joinSessionPopup} = useSelector((store) => store.variables);
     const dispatch = useDispatch();
     
@@ -20,7 +21,7 @@ export const Home = () => {
             navigate('/login');
         }
 
-    },[currentUser]);
+    },[token]);
    return (
 
     <div className='text-center pt-9 flex flex-col'>

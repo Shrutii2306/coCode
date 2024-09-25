@@ -88,4 +88,29 @@ const checkSessionId = async(req,res) =>{
 }
 
 
-module.exports = {createSession, getSession, checkSessionId}
+const exitSession = async( req, res) => {
+
+    const sessionId = req.body;
+    if(!sessionId){
+
+        return res.status(401).send("Session id required");
+    }
+
+    try{
+        const session = await Session.findOneAndUpdate(sessionId,{status : false});
+
+        if(!session){
+
+            return res.status(404).send({message:"Session does not exists."});
+        }
+
+        console.log(session)
+        return res.status(200).send(session);
+    }catch(err){
+
+        console.log(err);
+        res.status(500).send({message:"Something went wrong",error:err})
+    }
+
+}
+module.exports = {createSession, getSession, checkSessionId, exitSession}

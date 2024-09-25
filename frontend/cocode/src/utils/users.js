@@ -60,7 +60,7 @@ export const registerUser = async({name, email, password}) => {
 
             
             console.log(res);
-            localStorage.setItem("jwtToken",res.jwtToken);
+            localStorage.setItem("jwtToken",JSON.stringify(res.jwtToken));
             return(res);
             
         }
@@ -161,7 +161,7 @@ export const useGetUser = () => {
 
     const fetchUser = async () =>{
 
-        const token = JSON.parse(localStorage.getItem('jwtToken'));
+        const token = await JSON.parse(localStorage.getItem('jwtToken'));
         const TOKEN = "Bearer "+token;
         console.log(TOKEN);
         const myHeaders = new Headers();

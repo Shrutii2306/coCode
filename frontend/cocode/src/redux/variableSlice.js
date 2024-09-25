@@ -7,7 +7,8 @@ const variableSlice = createSlice({
 
         sessionPopup : false,
         linkPopup : true,
-        joinSessionPopup : false
+        joinSessionPopup : false,
+        networkPopup : false,
     },
 
     reducers:{
@@ -25,10 +26,15 @@ const variableSlice = createSlice({
         setJoinSessionPopup : (state, action) => {
 
             state.joinSessionPopup = action.payload;
+        },
+
+        setNetworkPopup : (state, action) => {
+
+            state.networkPopup = action.payload;
         }
     }
 })
 
 export default variableSlice.reducer;
 
-export const {setSessionPopup, setLinkPopup, setJoinSessionPopup} = variableSlice.actions;
+export const {setSessionPopup, setLinkPopup, setJoinSessionPopup, setNetworkPopup} = variableSlice.actions;

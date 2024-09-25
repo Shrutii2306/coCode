@@ -8,19 +8,24 @@ const sessionSlice = createSlice({
         sessionId : "",
         sessionName : "",
         hostName : "",
-
+        sessionStatus: "",
     },
 
     reducers:{
 
         setSession : (state, action) =>{
 
-            console.log(action)
             state.sessionId = action.payload.sessionId;
             state.sessionName = action.payload.sessionName;
-        }
+            state.sessionStatus = action.payload.sessionStatus;
+        },
+
+        setSessionStatus : (state, action) =>{
+
+            state.sessionStatus = action.payload.sessionStatus;
+        },
     }
 });
 
 export default sessionSlice.reducer;
-export const {setSession} = sessionSlice.actions;
+export const {setSession, setSessionStatus} = sessionSlice.actions;

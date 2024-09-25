@@ -66,7 +66,7 @@ export const useGetSession = (sessionId) => {
                 const response = await res.json();
                 console.log(response);
                 setSessionData(response);
-                dispatch(setSession({sessionId :response.sessionId, sessionName : response.sessionName}))
+                dispatch(setSession({sessionId :response.sessionId, sessionName : response.sessionName, sessionStatus : response.status}))
 
             } catch (error) {
                 
@@ -114,4 +114,43 @@ export const CheckSessionId = async(sessionId) => {
         console.log(error);
         return false;
     }
+}
+
+export const exitSession = async(sessionId) => {
+
+    const jwtToken = JSON.parse(localStorage.getItem('jwtToken'));
+    console.log(jwtToken)
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization",`Bearer ${jwtToken}`);
+    myHeaders.append("Content-type","application/json");
+
+    const requestOptions = {
+
+        method : 'post',
+        body : JSON.stringify({
+
+            sessionId
+        }),
+        headers : myHeaders
+    }
+
+    try {
+                
+        const res = await fetch(CHECK_SESSION_ID, requestOptions);
+        const response = await res.json();
+        console.log(response);
+        if(res.ok)
+        {
+            return true;
+        }else{
+
+            return response;
+        }
+    
+    } catch (error) {
+        
+        console.log(error);
+        return error;
+    }
+
 }

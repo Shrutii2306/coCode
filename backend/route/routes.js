@@ -1,7 +1,7 @@
 const express = require('express');
 const {  signupUser, getUsers, loginUser, getUser } = require('../controller/userController');
 const verifyToken = require('../middleware/authMiddleware');
-const { createSession, getSession, checkSessionId } = require('../controller/sessionController');
+const { createSession, getSession, checkSessionId, exitSession } = require('../controller/sessionController');
 
 const router = express.Router();
 
@@ -19,6 +19,7 @@ router.post("/getSession", verifyToken, getSession);
 
 router.post('/isSessionValid', verifyToken, checkSessionId);
 
+router.post('/exitSession', verifyToken, exitSession);
 router.get('/hello',(req,res) =>{
     console.log('first');
 })
