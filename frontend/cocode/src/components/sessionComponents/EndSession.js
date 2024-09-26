@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import { exitSession } from "../utils/sessions";
-import { setSessionStatus } from "../redux/sessionSlice";
+import { exitSession } from "../../utils/sessions";
+import { setSessionStatus } from "../../redux/sessionSlice";
 
 const EndSession = () =>{
 
@@ -16,7 +16,8 @@ const EndSession = () =>{
         }
         else{
 
-            alert("")
+            console.log(newStatus);
+            alert(newStatus);
         }
 
     }

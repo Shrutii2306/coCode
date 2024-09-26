@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
-import { SESSION_LINK } from "../utils/constants";
+import { SESSION_LINK } from "../../utils/constants";
 import { PiCopy } from "react-icons/pi";
 import { PiShareNetworkDuotone } from "react-icons/pi";
-import { setLinkPopup } from "../redux/variableSlice";
+import { setLinkPopup } from "../../redux/variableSlice";
 import { RxCross1 } from "react-icons/rx";
 import { useState } from "react";
 
@@ -16,7 +16,7 @@ const SessionLinkPopUp = () =>{
     const togglePopup = () => {
 
         dispatch(setLinkPopup(!linkPopup));
-       
+
     }
 
     return (

@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { GET_USERS, REGISTER_URL, LOGIN_URL, USER_DETAILS_URL } from "./constants";
 import { useEffect, useState } from "react";
 import { setUser } from "../redux/userSlice";
+import { useNavigate } from "react-router-dom";
 export const getUsers = async() => {
 
     const myHeaders = new Headers();
@@ -14,7 +15,7 @@ export const getUsers = async() => {
     };
 
     const response = await fetch(GET_USERS , requestOptions);
-    console.log(response);
+
 }
 
 export const getUser = async() => {
@@ -29,7 +30,7 @@ export const getUser = async() => {
     };
 
     const response = await fetch(GET_USERS , requestOptions);
-    console.log(response);
+
 }
 
 export const registerUser = async({name, email, password}) => {
@@ -58,8 +59,6 @@ export const registerUser = async({name, email, password}) => {
         const res = await response.json();
         if(response.ok){
 
-            
-            console.log(res);
             localStorage.setItem("jwtToken",JSON.stringify(res.jwtToken));
             return(res);
             
@@ -130,26 +129,28 @@ export const loginUser = async({email, password}) => {
     
 }
 
-// export const useLoggedInUser = () =>{
+export const useLoggedInUser = () =>{
 
-//     const [jwtToken, setToken] = useState('');
+    const [jwtToken, setToken] = useState(null);
+    const navigate = useNavigate();
+    useEffect(()=>{
 
-//     useEffect(()=>{
+        const getToken = async() =>{
 
-//         getToken();
-//     },[]);
+            const token = await JSON.parse(localStorage.getItem('jwtToken'));
+            console.log(token);
+            setToken(token);
+            
+        }
+    
+        getToken();
+    },[]);
 
-//     const getToken = async() =>{
+    
 
-//         const token = await localStorage.getItem('jwtToken');
-//         console.log(token);
-//         setToken(token);
-//     }
+    return jwtToken;
 
-
-//     return jwtToken;
-
-// }
+}
 
 export const useGetUser = () => {
 
@@ -163,7 +164,7 @@ export const useGetUser = () => {
 
         const token = await JSON.parse(localStorage.getItem('jwtToken'));
         const TOKEN = "Bearer "+token;
-        console.log(TOKEN);
+        // console.log(TOKEN);
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization",TOKEN);
@@ -181,7 +182,7 @@ export const useGetUser = () => {
             if(res.ok){
 
                 const response = await res.json()
-                console.log("response",response)
+                // console.log("response",response)
                 setUserData(response);
                 dispatch(setUser(response));
             }

@@ -8,7 +8,7 @@ const sessionSlice = createSlice({
         sessionId : "",
         sessionName : "",
         hostName : "",
-        sessionStatus: "",
+        sessionStatus: ""
     },
 
     reducers:{

@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { registerUser } from '../utils/users';
+import React, { useEffect, useState } from 'react'
+import { registerUser, useLoggedInUser } from '../utils/users';
 import { useNavigate} from "react-router-dom";
 export default function SignUp() {
 
@@ -8,6 +8,7 @@ export default function SignUp() {
     const [password, setPassword] = useState('');
     const [confirmPass, setConfirmPass] = useState('');
     const navigate = useNavigate();
+    const jwtToken = localStorage.getItem('jwtToken');
 
     const submit = async() => {
 
@@ -22,13 +23,24 @@ export default function SignUp() {
             return;
         }
         const res = await registerUser({name, email, password});
-        // alert(res);
-        if(res.userId){
+        if(res.userId!=null){
 
             navigate('/home');
         }
+        else{
+
+            alert('Something went wrong!')
+        }
 
     }
+
+    useEffect(()=>{
+
+        if(jwtToken!=null){
+
+            navigate('/home');
+        }
+    })
   return (
     <div className='text-center pt-6'>
         <div className='text-2xl font-semibold m-2'>SignUp</div>

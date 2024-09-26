@@ -1,12 +1,14 @@
-import {useState}  from 'react';
+import {useEffect, useState}  from 'react';
 import { useNavigate, useSubmit } from 'react-router-dom';
-import { loginUser } from '../utils/users';
+import { loginUser, useLoggedInUser } from '../utils/users';
 
 const Login = () =>{
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+    const jwtToken = localStorage.getItem('jwtToken');
+
     const submit = async() => {
 
         if(!email || !password){
@@ -29,7 +31,15 @@ const Login = () =>{
             alert(res.message);
         }
     }
+    
+    useEffect(()=>{
 
+        if(jwtToken!=null){
+
+            navigate('/home');
+       }
+    },[]);
+    
     return(
 
         <div className='text-center pt-6'>

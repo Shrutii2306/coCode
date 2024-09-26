@@ -3,14 +3,12 @@ import Header from './components/Header';
 import { Outlet } from 'react-router-dom';
 import {Provider, useDispatch} from 'react-redux';
 import appStore from './redux/store';
-import InternetPopup from './components/InternetPopup';
+import InternetPopup from './components/popUps/InternetPopup';
 import useInternetStatus from './utils/useInternetStatus';
 import { setNetworkPopup } from './redux/variableSlice';
 function App() {
 
   const status = useInternetStatus();
-
-  console.log('status',status,status === false);
 
   return (
     <Provider store={appStore} >

@@ -1,14 +1,11 @@
 import { useSelector } from 'react-redux';
-import WIFI_IMAGE from '../assets/wifi.png';
-import useInternetStatus from "../utils/useInternetStatus";
+import WIFI_IMAGE from '../../assets/wifi.png';
+import useInternetStatus from "../../utils/useInternetStatus";
 
 const InternetPopup = () => {
 
-    
     const status = useInternetStatus();
-    console.log(status);
-    // const {networkPopup } = useSelector((store) => store.variables)
-    // const status = networkPopup
+
     return (
 
         <div className={`z-10 absolute  w-[100%] h-[100%] ${ status==false? 'block':'hidden'}`}>

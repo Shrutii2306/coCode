@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
-import { setSessionPopup } from "../redux/variableSlice";
+import { setSessionPopup } from "../../redux/variableSlice";
 import { RxCross1 } from "react-icons/rx";
 import { useState } from "react";
-import { getNewSession } from "../utils/sessions";
+import { getNewSession } from "../../utils/sessions";
 import { useNavigate } from "react-router-dom";
 
 const SessionPopUp = () =>  {
