@@ -1,3 +1,4 @@
+const { default: mongoose } = require('mongoose');
 const User = require('../model/user');
 const {createSecretToken} = require('../tokenGeneration/generateToken');
 const bcrypt = require("bcrypt");
@@ -120,5 +121,32 @@ const loginUser = async(req, res)=>{
 
     }
 }
-module.exports = {signupUser, getUsers, loginUser, getUser};
+
+const getUserName = async(req, res) => {
+
+    console.log(req);
+    const {userId} = req.body;
+
+    if(!userId){
+
+        return res.status(404).send({success : false, message: "user id required"});
+    }
+
+    try{
+        
+        const user = await User.findById(userId);
+        console.log(user)
+        if(!user) return res.status(404).send({success: false, message :"User not found"});
+        
+        res.status(200).send({success: true, name :user.name});
+
+    }catch(err){
+
+        console.log(err)
+        res.status(500).send({success: false, message : "Something went wrong"});
+    }
+
+}
+
+module.exports = {signupUser, getUsers, loginUser, getUser, getUserName};
 // export default signupUser;

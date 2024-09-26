@@ -7,6 +7,7 @@ import { FaCircle } from "react-icons/fa";
 import { useLoggedInUser } from "../utils/users";
 import { useEffect } from "react";
 import HistoryTab from "./sessionComponents/HistoryTab";
+import SessionMembersTab from "./sessionComponents/SessionMembersTab";
 
 const Session = () =>{
 
@@ -27,20 +28,18 @@ const Session = () =>{
     
     return (
 
-        <div>
-
-            
+        <div className="flex ">
+            <div className="w-10/12">
             <SessionLinkPopUp />
-
-            <div className="flex">
-                SessionName : {sessionName} 
-                <div className="px-1 py-[6px]">
-                    <FaCircle color={sessionStatus ? "green" : "red"}size={12} />
+                <div className="flex">
+                    SessionName : {sessionName} 
+                    <div className="px-1 py-[6px]">
+                        <FaCircle color={sessionStatus ? "green" : "red"}size={12} />
+                    </div>
                 </div>
+                <EndSessionButton />
             </div>
-
-            <EndSessionButton />
-
+            <SessionMembersTab/>
         </div>
     )
 

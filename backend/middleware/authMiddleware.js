@@ -17,9 +17,7 @@ function verifyToken (req, res, next) {
     // verify the token using token key and if invalid return the error else return the decrypted info retreived from the token and call the method to fetch userdata from DB
     jwt.verify(token, process.env.TOKEN_KEY, (err, user) => {
       if (err) return res.status(403).json({token:token, message: 'Invalid token' });
-        console.log("inside veriy token");
       req.user = user;
-      console.log("inside veriy toooken");
       next();
     });
 }

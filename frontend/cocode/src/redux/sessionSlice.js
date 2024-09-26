@@ -7,8 +7,9 @@ const sessionSlice = createSlice({
         
         sessionId : "",
         sessionName : "",
-        hostName : "",
-        sessionStatus: ""
+        hostId : "",
+        sessionStatus: "",
+        sessionMembers: []
     },
 
     reducers:{
@@ -18,6 +19,8 @@ const sessionSlice = createSlice({
             state.sessionId = action.payload.sessionId;
             state.sessionName = action.payload.sessionName;
             state.sessionStatus = action.payload.sessionStatus;
+            state.hostId = action.payload.hostId;
+            state.sessionMembers = action.payload.sessionMembers;
         },
 
         setSessionStatus : (state, action) =>{

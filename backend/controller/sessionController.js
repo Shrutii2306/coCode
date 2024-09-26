@@ -4,11 +4,11 @@ const mongoose = require('mongoose');
 const createSession = async(req,res) =>{
 
     const newSessionId = uuidv4();
-    console.log(newSessionId);
+    // console.log(newSessionId);
     // res.send(newSessionId);
-    console.log(req.body, req.user);
+    // console.log(req.body, req.user);
     const { sessionName, maxParticipant} = req.body;
-    console.log( sessionName, maxParticipant);
+    // console.log( sessionName, maxParticipant);
 
     try{
         const session = new Session({ sessionId: newSessionId, hostId: req.user.id ,sessionName, maxParticipant});
@@ -38,7 +38,7 @@ const getSession = async(req,res) =>{
             res.status(404).send({message:"Session does not exists."});
         }
 
-        console.log(session)
+        // console.log(session)
         res.status(200).send(session);
     }catch(err){
 
@@ -68,7 +68,7 @@ const joinSession = async(req,res) => {
         if(session.status){
             session.participants.push(req.user.id);
             await session.save();
-            console.log(session);
+            // console.log(session);
             res.status(200).send(session);
         }
         else{
@@ -111,7 +111,7 @@ const checkSessionId = async(req,res) =>{
             return res.status(406).send({message:"Session is full. Please try again later."});
         }
 
-        console.log(session)
+        // console.log(session)
         return res.status(200).send(true);
     }catch(err){
 
@@ -165,9 +165,9 @@ const getSessionHistory = async(req,res) => {
     try{
 
         const hostHistory = await Session.find({hostId :userId});
-        console.log(hostHistory);
+        // console.log(hostHistory);
         const pHistory = await Session.find({participants:{ $all :[userId]}})
-        console.log(pHistory);
+        // console.log(pHistory);
         res.status(200).send({userId : userId, hostHistory: hostHistory, participantHistory: pHistory});
 
     }catch(err){

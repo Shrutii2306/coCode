@@ -1,5 +1,5 @@
 const express = require('express');
-const {  signupUser, getUsers, loginUser, getUser } = require('../controller/userController');
+const {  signupUser, getUsers, loginUser, getUser, getUserName } = require('../controller/userController');
 const verifyToken = require('../middleware/authMiddleware');
 const { createSession, getSession, checkSessionId, exitSession, joinSession, getSessionHistory } = require('../controller/sessionController');
 
@@ -10,6 +10,7 @@ router.post('/users', signupUser);
 router.get('/users', getUsers);
 router.post('/user', loginUser);
 router.get('/user', verifyToken, getUser);
+router.post('/username',getUserName);
 
 // session routes
 router.post('/session',verifyToken, createSession);

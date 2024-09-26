@@ -202,3 +202,39 @@ export const useGetUser = () => {
     return userData;
 
 }
+
+export const getUserName = async(userId) => {
+
+    const myHeaders = new Headers();
+    console.log(typeof userId, userId)
+    myHeaders.append("Content-Type", "application/json");
+    
+    const raw = JSON.stringify({
+      userId
+    });
+    
+    const requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow"
+    };
+    
+    try {
+
+        const res = await fetch("http://localhost:5000/username", requestOptions);
+        const response = await res.json();
+        if(res.ok)
+            return response.name;
+        else{
+           
+            console.log(response.message);
+            return null;
+        }
+
+    } catch (error) {
+    
+        console.log(error);
+    }
+    
+}

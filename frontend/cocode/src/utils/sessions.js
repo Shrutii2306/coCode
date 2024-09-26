@@ -69,7 +69,7 @@ export const useGetSession = (sessionId) => {
                 const response = await res.json();
                 console.log(response);
                 setSessionData(response);
-                dispatch(setSession({sessionId :response.sessionId, sessionName : response.sessionName, sessionStatus : response.status}))
+                dispatch(setSession({sessionId :response.sessionId, sessionName : response.sessionName, sessionStatus : response.status, sessionMembers : response.participants, hostId: response.hostId}))
 
             } catch (error) {
                 
