@@ -223,7 +223,7 @@ export const useSessionHistory = () =>{
                 const response = await res.json();
                 if(res.ok){
     
-                    console.log("response",response);
+                    // console.log("response",response);
                    setSessionHistory(response);
                 }
                 

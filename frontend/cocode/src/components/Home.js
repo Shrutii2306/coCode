@@ -23,38 +23,44 @@ export const Home = () => {
         }
 
     },[token]);
+
+
    return (
 
-    <div className='text-center pt-9 flex flex-col'>
-    <h1>Hello, {user.name}</h1>
-    <SessionPopUp />
-    {
-        !sessionPopup && 
-        <button 
-            className='border border-black px-1 rounded-md mt-5 hover:bg-gray-200 w-fit mx-auto' 
-            onClick={() => {
-                dispatch(setSessionPopup(true)) 
-                dispatch(setJoinSessionPopup(false))
-            }}
-        >
-            New session
-        </button>}
+    <div className='flex'>
+        <HistoryTab/>
 
-    <JoinSessionPopUp/>
-    {
-    !joinSessionPopup &&  
-    <button 
-        className='border border-black px-1 rounded-md mt-5 hover:bg-gray-200 w-fit mx-auto' 
-        onClick={() => {
-            dispatch(setJoinSessionPopup(!joinSessionPopup)); 
-            dispatch(setSessionPopup(false))
-        }}
-    >
-        Join Session
-    </button>}
+        <div className='text-center pt-9 flex flex-col border w-10/12'>
+            <h1>Hello, {user.name}</h1>
+            <SessionPopUp />
+            {
+                !sessionPopup && 
+                <button 
+                    className='border border-black px-1 rounded-md mt-5 hover:bg-gray-200 w-fit mx-auto' 
+                    onClick={() => {
+                        dispatch(setSessionPopup(true)) 
+                        dispatch(setJoinSessionPopup(false))
+                    }}
+                >
+                    New session
+                </button>}
 
-    <HistoryTab/>
+            <JoinSessionPopUp/>
+            {
+            !joinSessionPopup &&  
+            <button 
+                className='border border-black px-1 rounded-md mt-5 hover:bg-gray-200 w-fit mx-auto' 
+                onClick={() => {
+                    dispatch(setJoinSessionPopup(!joinSessionPopup)); 
+                    dispatch(setSessionPopup(false))
+                }}
+            >
+                Join Session
+            </button>}
+        </div>
+
     </div>
+    
     
   ); 
 }

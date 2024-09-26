@@ -29,6 +29,7 @@ const Session = () =>{
 
         <div>
 
+            
             <SessionLinkPopUp />
 
             <div className="flex">
