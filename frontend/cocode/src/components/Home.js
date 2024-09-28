@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useGetUser, useLoggedInUser } from '../utils/users';
+import { useGetUser, loggedInUser } from '../utils/users';
 import SessionPopUp from './popUps/SessionPopUp';
 import { setJoinSessionPopup, setSessionPopup } from '../redux/variableSlice';
 import JoinSessionPopUp from './JoinSessionPopUp';
@@ -11,16 +11,25 @@ export const Home = () => {
     const navigate = useNavigate();
     
     const token = localStorage.getItem("jwtToken");
+    const isUser = loggedInUser();
     const user = useSelector((store) => store.user);
     const currentUser = useGetUser();
     const { sessionPopup, joinSessionPopup} = useSelector((store) => store.variables);
     const dispatch = useDispatch();
     
-    useEffect(()=>{
+    const isUserLoggedIn = async() =>{
 
-        if(token==null){
+        const res = await loggedInUser();
+        if(res==null){
+
+            alert("Please login to continue.");
             navigate('/login');
         }
+    }
+
+    useEffect(()=>{
+
+       isUserLoggedIn()
 
     },[token]);
 

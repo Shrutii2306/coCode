@@ -2,7 +2,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { GET_USERS, REGISTER_URL, LOGIN_URL, USER_DETAILS_URL } from "./constants";
 import { useEffect, useState } from "react";
 import { setUser } from "../redux/userSlice";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
+import {jwtDecode} from 'jwt-decode';
 export const getUsers = async() => {
 
     const myHeaders = new Headers();
@@ -109,7 +110,7 @@ export const loginUser = async({email, password}) => {
             
             if(response.ok){
     
-                console.log("res",res);
+                console.log("res",response);
                 localStorage.setItem("jwtToken", JSON.stringify(res.jwtToken));
                 
                 console.log( localStorage)
@@ -129,26 +130,40 @@ export const loginUser = async({email, password}) => {
     
 }
 
-export const useLoggedInUser = () =>{
+export const logout = () => {
 
-    const [jwtToken, setToken] = useState(null);
-    const navigate = useNavigate();
-    useEffect(()=>{
+    localStorage.removeItem('jwtToken');
+}
 
-        const getToken = async() =>{
-
-            const token = await JSON.parse(localStorage.getItem('jwtToken'));
-            console.log(token);
-            setToken(token);
-            
+export const loggedInUser = async() =>{
+   
+    
+    try{
+        
+        const token = await JSON.parse(localStorage.getItem('jwtToken'));
+        if(!token)
+        {
+            logout();
+            return null;
         }
-    
-        getToken();
-    },[]);
+        const jwtInfo = jwtDecode(token);
+        console.log("jwtInfo", jwtInfo);
+        console.log(Math.floor(new Date().getTime()/1000), jwtInfo.exp);
+        const currentDate = Math.floor(new Date().getTime()/1000);
+        console.log(currentDate > jwtInfo.exp)
 
-    
+        if(currentDate > jwtInfo.exp){
+            
+            logout();
+            return null;
+        }    
 
-    return jwtToken;
+        return token;
+    }catch(err){
+        
+        console.log(err);
+
+    }
 
 }
 

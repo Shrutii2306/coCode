@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { registerUser, useLoggedInUser } from '../utils/users';
+import { registerUser, loggedInUser } from '../utils/users';
 import { useNavigate} from "react-router-dom";
 export default function SignUp() {
 
@@ -34,13 +34,23 @@ export default function SignUp() {
 
     }
 
-    useEffect(()=>{
+    const isUserLoggedIn = async() => {
 
-        if(jwtToken!=null){
+        const res = await loggedInUser();
+
+        if(res!=null){
 
             navigate('/home');
         }
-    })
+    }
+
+    useEffect(()=>{
+
+        isUserLoggedIn();
+
+    },[]);
+
+    
   return (
     <div className='text-center pt-6'>
         <div className='text-2xl font-semibold m-2'>SignUp</div>

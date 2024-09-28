@@ -4,14 +4,13 @@ import { useGetSession } from "../utils/sessions";
 import { useSelector } from "react-redux";
 import EndSessionButton from './sessionComponents/EndSession';
 import { FaCircle } from "react-icons/fa";
-import { useLoggedInUser } from "../utils/users";
+import { loggedInUser } from "../utils/users";
 import { useEffect } from "react";
 import HistoryTab from "./sessionComponents/HistoryTab";
 import SessionMembersTab from "./sessionComponents/SessionMembersTab";
 
 const Session = () =>{
 
-    const isUser = useLoggedInUser();
     const navigate = useNavigate();
     const {state} = useLocation();
     const sessionId = state.sessionId;
@@ -19,12 +18,20 @@ const Session = () =>{
     console.log(session)
     const {sessionName, sessionStatus} = useSelector((store) => store.session)
     
-    
-
     useEffect(()=>{
-        
-        // useGetSession(sessionId);
-    },[])
+
+        const isUserLoggedIn = async() => {
+
+            const res = await loggedInUser();
+    
+            if(res!=null){
+    
+                navigate('/home');
+            }
+        }
+        isUserLoggedIn();
+    },[]);
+    
     
     return (
 

@@ -1,6 +1,6 @@
 import {useEffect, useState}  from 'react';
 import { useNavigate, useSubmit } from 'react-router-dom';
-import { loginUser, useLoggedInUser } from '../utils/users';
+import { loginUser, loggedInUser } from '../utils/users';
 
 const Login = () =>{
 
@@ -32,12 +32,19 @@ const Login = () =>{
         }
     }
     
+
     useEffect(()=>{
 
-        if(jwtToken!=null){
+        const isUserLoggedIn = async() => {
 
-            navigate('/home');
-       }
+            const res = await loggedInUser();
+    
+            if(res!=null){
+    
+                navigate('/home');
+            }
+        }
+        isUserLoggedIn();
     },[]);
     
     return(
