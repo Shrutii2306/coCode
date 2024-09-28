@@ -14,12 +14,15 @@ const Accordian = ({data, title}) => {
     return (
 
         <div className="px-4 py-2 border-b-[1px]">
-            <div className="flex justify-between">
-                <span className="text-md font-semibold">{title}</span>
+            <div className="flex">
                 <button 
+                    className="flex justify-between w-[100%] items-center"
                     onClick={()=> setIsVisible(!isVisible)}
                 >
-                    {isVisible?<FaChevronUp />:<FaChevronDown />}
+                    <div className="text-md font-semibold">{title}</div>
+                    <div>
+                        {isVisible?<FaChevronUp />:<FaChevronDown />}
+                    </div>
                 </button>
             </div>
             
@@ -29,7 +32,7 @@ const Accordian = ({data, title}) => {
                 return(
                     <div className="pl-2 pr-1 flex flex-col" key={item.sessionId}>
                         <button
-                            className="flex items-center over:font-semibold justify-between "
+                            className="flex items-center hover:font-semibold justify-between "
                             onClick={() => getSession(item.sessionId)}
                         >
                             <span>{item.sessionName}</span>
