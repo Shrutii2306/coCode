@@ -32,7 +32,7 @@ const appRouter = createBrowserRouter([
         errorElement: <Error />
       },
       {
-        path: "/session/:id",
+        path: "/session",
         element : <Session />,
         errorElement: <Error/>
       }

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useGetUser, loggedInUser } from '../utils/users';
 import SessionPopUp from './popUps/SessionPopUp';
 import { setJoinSessionPopup, setSessionPopup } from '../redux/variableSlice';
-import JoinSessionPopUp from './JoinSessionPopUp';
+import JoinSessionPopUp from './popUps/JoinSessionPopUp';
 import HistoryTab from './sessionComponents/HistoryTab';
 export const Home = () => {
 

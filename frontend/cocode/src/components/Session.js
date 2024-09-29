@@ -8,12 +8,13 @@ import { loggedInUser } from "../utils/users";
 import { useEffect } from "react";
 import HistoryTab from "./sessionComponents/HistoryTab";
 import SessionMembersTab from "./sessionComponents/SessionMembersTab";
+import TextEditor from "./editor/TextEditor";
 
 const Session = () =>{
 
     const navigate = useNavigate();
     const {state} = useLocation();
-    const sessionId = state.sessionId;
+    const sessionId = state?.sessionId;
     const session = useGetSession(sessionId);
     console.log(session)
     const {sessionName, sessionStatus} = useSelector((store) => store.session)
@@ -24,15 +25,22 @@ const Session = () =>{
 
             const res = await loggedInUser();
     
-            if(res!=null){
+            if(res==null){
     
-                navigate('/home');
+                navigate('/login');
             }
         }
         isUserLoggedIn();
     },[]);
     
-    
+    useEffect(() => {
+
+        if(sessionId==null){
+
+            alert('No active session!');
+            navigate('/home');
+        }
+    },[sessionId])
     return (
 
         <div className="flex ">
@@ -45,6 +53,7 @@ const Session = () =>{
                     </div>
                 </div>
                 <EndSessionButton />
+                <TextEditor />
             </div>
             <SessionMembersTab/>
         </div>

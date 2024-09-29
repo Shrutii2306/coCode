@@ -1,8 +1,8 @@
 import { RxCross1 } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
-import { setJoinSessionPopup } from "../redux/variableSlice";
+import { setJoinSessionPopup } from "../../redux/variableSlice";
 import { useState } from "react";
-import { checkSessionId, joinSession } from "../utils/sessions";
+import { checkSessionId, joinSession } from "../../utils/sessions";
 import { useNavigate } from "react-router-dom";
 
 const JoinSessionPopUp = () =>{
@@ -21,7 +21,7 @@ const JoinSessionPopUp = () =>{
         const res = await joinSession(sessionId);
         if(res){
 
-            navigate(`/session/${sessionId}`,{state :{ sessionId}});
+            navigate(`/session`,{state :{ sessionId}});
         }
     }
 

@@ -9,7 +9,7 @@ const Accordian = ({data, title}) => {
 
     const getSession = (sessionId) => {
 
-        navigate(`/session/${sessionId}`,{state:{ sessionId}});
+        navigate(`/session`,{state:{ sessionId}});
     }
     return (
 
