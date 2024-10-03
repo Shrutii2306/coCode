@@ -2,7 +2,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { GET_USERS, REGISTER_URL, LOGIN_URL, USER_DETAILS_URL } from "./constants";
 import { useEffect, useState } from "react";
 import { setUser } from "../redux/userSlice";
-import { redirect, useNavigate } from "react-router-dom";
 import {jwtDecode} from 'jwt-decode';
 export const getUsers = async() => {
 

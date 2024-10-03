@@ -1,7 +1,10 @@
 require('dotenv').config();
 const express = require('express')
 const mongoose = require('mongoose')
+const ws = require('ws');
 const cors = require('cors')
+const http = require('http')
+const WebSocket = require('ws');
 const app = express();
 const routes = require('./route/routes');
 const PORT = process.env.PORT || 5000;
@@ -18,48 +21,87 @@ mongoose.connect(uri,{dbName: 'CoCode'})
         .then(() => console.log("MongoDB Atlas connected"))
         .catch(err => console.log(err));
 
-// Sample route
+const server = http.createServer(app);
+
+const wss = new ws.Server({server});
+
+// Store connected clients
+let clients = [];
+
+// WebSocket server logic
+wss.on('connection', (ws) => {
+  console.log('Client connected');
+  clients.push(ws);
+
+  // Listen for incoming messages from a client
+  ws.on('message', (message) => {
+    const data = JSON.parse(message);
+    // console.log(data);
+    // Broadcast the code update to all connected clients
+    if (data.type === 'codeUpdate') {
+      wss.clients.forEach((client) => {
+        if (client !== ws && client.readyState === WebSocket.OPEN) {
+
+            console.log(wss.clients)
+          client.send(JSON.stringify({
+            type: 'codeUpdate',
+            code: data.code
+          }));
+        }
+      });
+    }
+  });
+
+  // Remove the client on disconnection
+  ws.on('close', () => {
+    console.log('Client disconnected');
+    clients = clients.filter(client => client !== ws);
+  });
+
+  // Handle WebSocket errors
+  ws.on('error', (error) => {
+    console.error('WebSocket error:', error);
+  });
+});
+
 app.use('/',routes);
-
-// app.post('/users', async (req, res) => {
-
-//     const {name, email, password} = req.body;
-//     console.log(name,email, password);
-//     try{
-
-//         const user = new User({name, email, password});
-//         await user.save();
-//         res.send(user);
-
-//     }catch(err){
-
-//         console.log(err);
-//         res.status(500).send(err);
-//     }
-// });
-
-// app.get('/users', async(req, res) => {
-
-//     try{
-
-//         const users = await User.find({});
-//         res.send(users);
-//     }catch(err){
-
-//         console.log(err);
-//         res.status(500).send(err);
-//     }
-// })
 
 app.get('/',(req, res) =>{
 
-    res.send("Hello from express");
+    res.send('WebSocket server with Express is running!');
 });
 
-app.listen(PORT, () => {
+// Start the server on port 3000
+server.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+  });
 
-    console.log(`Server running on port ${PORT}`);
-})
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const httpServer = app.listen(PORT, () => {
+
+//     console.log(`Server running on port ${PORT}`);
+// })
+
+// const wsServer = new ws.Server({ noServer: true })
+
+// httpServer.on('upgrade', (req, socket, head) => {
+//   wsServer.handleUpgrade(req, socket, head, (ws) => {
+//     wsServer.emit('connection', ws, req)
+//   })
+// })
 

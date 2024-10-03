@@ -5,12 +5,12 @@ import { useEffect, useState } from "react";
 const SessionMembersTab = () => {
 
     const {hostId,sessionMembers} = useSelector((store) => store.session);
-    console.log("sessionMembers",sessionMembers, hostId)
+    // console.log("sessionMembers",sessionMembers, hostId)
     const [hostName, setHostName] = useState('');
 
     const retreiveNames = async() =>{
 
-        console.log(typeof hostId)
+        // console.log(typeof hostId)
         const name = await getUserName(hostId)
         setHostName(name);
 

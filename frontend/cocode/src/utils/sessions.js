@@ -2,12 +2,11 @@ import { useEffect, useState } from "react";
 import { CHECK_SESSION_ID, EXIT_SESSION_URL, GET_SESSION_URL, JOIN_SESSION_URL, NEW_SESSION_URL, SESSION_HISTORY_URL } from "./constants";
 import { useDispatch } from "react-redux";
 import { setSession } from "../redux/sessionSlice";
-import { redirect, useNavigate } from "react-router-dom";
 
 export const getNewSession = async({sessionName, maxParticipant}) => {
 
         const jwtToken = JSON.parse(localStorage.getItem('jwtToken'));
-
+       
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", `Bearer ${jwtToken}`);

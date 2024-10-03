@@ -124,7 +124,7 @@ const loginUser = async(req, res)=>{
 
 const getUserName = async(req, res) => {
 
-    console.log(req);
+    // console.log(req);
     const {userId} = req.body;
 
     if(!userId){
@@ -135,7 +135,7 @@ const getUserName = async(req, res) => {
     try{
         
         const user = await User.findById(userId);
-        console.log(user)
+        // console.log(user)
         if(!user) return res.status(404).send({success: false, message :"User not found"});
         
         res.status(200).send({success: true, name :user.name});
