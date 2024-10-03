@@ -6,7 +6,7 @@ It’ll have real-time code collaboration, chat, and project management—all in
 
 Key Features:
 1. User authentication (login/signup) ✅
-2. Real-time code editor with live updates
+2. Real-time code editor with live updates ✅
 3. Basic text chat for communication
 4. Simple code editor interface (syntax highlighting)
 5. Project creation and joining sessions
