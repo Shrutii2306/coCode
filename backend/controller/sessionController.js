@@ -1,6 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
 const Session = require('../model/session');
 const mongoose = require('mongoose');
+
 const createSession = async(req,res) =>{
 
     const newSessionId = uuidv4();

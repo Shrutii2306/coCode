@@ -37,7 +37,7 @@ export const Home = () => {
    return (
 
     <div className='flex h-screen'>
-        <HistoryTab/>
+             <HistoryTab/>
 
         <div className='text-center pt-9 flex flex-col border w-10/12'>
             <h1>Hello, {user.name}</h1>

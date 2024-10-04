@@ -12,4 +12,6 @@ export const EXIT_SESSION_URL = "http://localhost:5000/exitSession";
 export const JOIN_SESSION_URL = "http://localhost:5000/joinSession";
 export const SESSION_HISTORY_URL = "http://localhost:5000/sessionHistory";
 
+export const SAVE_CODE_URL = "http://localhost:5000/saveCodeSnippet";
+
 export const WIFI_IMAGE = "..\\assets\\wifi.png";

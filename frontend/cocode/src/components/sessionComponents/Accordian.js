@@ -20,7 +20,7 @@ const Accordian = ({data, title}) => {
                     onClick={()=> setIsVisible(!isVisible)}
                 >
                     <div className="text-md font-semibold">{title}</div>
-                    <div>
+                    <div className="ml-1">
                         {isVisible?<FaChevronUp />:<FaChevronDown />}
                     </div>
                 </button>

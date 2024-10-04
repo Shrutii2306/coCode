@@ -2,6 +2,7 @@ const express = require('express');
 const {  signupUser, getUsers, loginUser, getUser, getUserName } = require('../controller/userController');
 const verifyToken = require('../middleware/authMiddleware');
 const { createSession, getSession, checkSessionId, exitSession, joinSession, getSessionHistory } = require('../controller/sessionController');
+const { saveHistory, getLastCheckPoint } = require('../controller/codeController');
 
 const router = express.Router();
 
@@ -20,6 +21,9 @@ router.post('/joinSession', verifyToken, joinSession);
 router.post('/exitSession', verifyToken, exitSession);
 router.post('/sessionHistory',verifyToken, getSessionHistory);
 
+// code routes
+router.post('/saveCodeSnippet',verifyToken, saveHistory);
+router.post('/getLastCheckpoint', getLastCheckPoint);
 
 router.get('/hello',(req,res) =>{
     console.log('first');

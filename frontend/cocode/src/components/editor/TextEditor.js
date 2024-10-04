@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Controlled as CodeMirror} from 'react-codemirror2';
+import { saveCodeSnippet } from '../../utils/codeHistories';
+import { useSelector } from "react-redux";
 require('codemirror/mode/xml/xml');
 require('codemirror/mode/javascript/javascript');
 require("codemirror/addon/hint/show-hint.css") 
@@ -9,7 +11,6 @@ require( "codemirror/addon/hint/anyword-hint.js")
 require("codemirror/theme/twilight.css")
 require("@codemirror/view");
 
-// let socket;
 const TextEditor = () => {
 
     const text = `function foo(){
@@ -25,7 +26,8 @@ const TextEditor = () => {
     const [socket,setSocket] = useState() ;
     const codemirrorRef = useRef(null);
     const debounceTimeoutRef = useRef(null);
-
+    const {sessionId, hostId} = useSelector((store) => store.session);
+    
     const handleDebouncedCode = (value) => {
 
         clearTimeout(debounceTimeoutRef.current);
@@ -41,18 +43,22 @@ const TextEditor = () => {
                 console.log(socket)
                 console.log('Websocket not opened');
             }
-          },1000);  // Delay by 500ms (adjust as needed)
+          },2000);  // Delay by 500ms (adjust as needed)
     }
 
     const handleCodeChange = (editor, data, value) => {
 
-
         setValue(value);
-        handleDebouncedCode(value);
-        
-        
+        handleDebouncedCode(value);        
     }
     
+    const onSubmit = async() => {
+
+        // const res = await eval(value);
+        console.log(JSON.stringify(value));
+        saveCodeSnippet(JSON.stringify(value), sessionId, hostId);
+    }
+
 
     useEffect(() => {
     const current = codemirrorRef.current.editor.display.wrapper.style.height = "600px";
@@ -62,7 +68,7 @@ const TextEditor = () => {
     useEffect(() => {
 
         const ws = new WebSocket('ws://localhost:5000');
-        console.log(ws);
+
         ws.onopen = () => {
           console.log('WebSocket connection opened');
           setIsSocketOpen(true); // Set socket to open
@@ -95,11 +101,7 @@ const TextEditor = () => {
         };
     },[]);
 
-    const onSubmit = async() => {
-
-        const res = await eval(value);
-        console.log(res);
-    }
+    
     return(
 
         <div className='flex my-5'>
