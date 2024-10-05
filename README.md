@@ -9,7 +9,7 @@ Key Features:
 2. Real-time code editor with live updates ✅
 3. Basic text chat for communication
 4. Simple code editor interface (syntax highlighting)
-5. Project creation and joining sessions
+5. Project creation and joining sessions ✅
     
 Tech Stack
 1. Frontend:
