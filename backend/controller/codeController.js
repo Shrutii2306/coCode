@@ -4,7 +4,7 @@ const saveHistory = async(req, res) => {
 
     const {sessionId, hostId, code} = req.body;
     const {id } = req.user;
-    console.log(req, sessionId, hostId, code, id)
+    // console.log(req, sessionId, hostId, code, id)
     try{
 
         const history = await CodeHistory.findOne({sessionId : sessionId});
@@ -13,7 +13,8 @@ const saveHistory = async(req, res) => {
             const newHistory = {
 
                 code: code,
-                savedBy: id
+                savedBy: id,
+                savedAt: Date.now()
             }
             
             history.codeSnippets.push(newHistory);
@@ -27,7 +28,8 @@ const saveHistory = async(req, res) => {
                 sessionId: sessionId, 
                 codeSnippets : {
                     code: code,
-                    savedBy: id
+                    savedBy: id,
+                    savedAt: Date.now()
                 }
             })
         
@@ -46,7 +48,7 @@ const saveHistory = async(req, res) => {
 const getLastCheckPoint = async(req, res) => {
 
     const {sessionId} = req.body;
-
+    // console.log("sessionId",sessionId);
     try {
         
         const history = await CodeHistory.findOne({sessionId});

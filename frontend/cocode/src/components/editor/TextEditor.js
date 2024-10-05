@@ -1,33 +1,21 @@
 import { useEffect, useRef, useState } from 'react';
 import { Controlled as CodeMirror} from 'react-codemirror2';
-import { saveCodeSnippet } from '../../utils/codeHistories';
+import { saveCodeSnippet, useLastCheckpoint } from '../../utils/codeHistories';
+import ClipLoader from 'react-spinners/ClipLoader'
 import { useSelector } from "react-redux";
-require('codemirror/mode/xml/xml');
-require('codemirror/mode/javascript/javascript');
-require("codemirror/addon/hint/show-hint.css") 
-require( "codemirror/addon/hint/show-hint.js")
-require( "codemirror/addon/hint/javascript-hint.js")
-require( "codemirror/addon/hint/anyword-hint.js")
-require("codemirror/theme/twilight.css")
-require("@codemirror/view");
+require('./codeMirrorImports');
 
 const TextEditor = () => {
 
-    const text = `function foo(){
-        let str1 = "hello world!";
-        console.log(str1);
-    }
-    
-    foo();
-    `;
-
+    const text = useLastCheckpoint();
+    const {isLoading} = useSelector((store) => store.codeSnippet);
     const [isSocketOpen, setIsSocketOpen] = useState(false);
-    const [value, setValue] = useState("");
     const [socket,setSocket] = useState() ;
     const codemirrorRef = useRef(null);
     const debounceTimeoutRef = useRef(null);
     const {sessionId, hostId} = useSelector((store) => store.session);
-    
+    const [value, setValue] = useState(text);
+
     const handleDebouncedCode = (value) => {
 
         clearTimeout(debounceTimeoutRef.current);
@@ -52,16 +40,23 @@ const TextEditor = () => {
         handleDebouncedCode(value);        
     }
     
-    const onSubmit = async() => {
+    const onSave = async() => {
 
-        // const res = await eval(value);
-        console.log(JSON.stringify(value));
-        saveCodeSnippet(JSON.stringify(value), sessionId, hostId);
+        const saved =await saveCodeSnippet(JSON.stringify(value), sessionId, hostId);
+        if(saved){
+            window.location.reload();
+        }
     }
 
+    const onSubmit = async() => {
+
+        console.log(JSON.stringify(value), sessionId, hostId);
+        
+    }
 
     useEffect(() => {
     const current = codemirrorRef.current.editor.display.wrapper.style.height = "600px";
+    
     },[]);
 
 
@@ -101,35 +96,56 @@ const TextEditor = () => {
         };
     },[]);
 
-    
+    useEffect(()=>{
+        
+        setValue(text);
+    },[text])
+
     return(
 
         <div className='flex my-5'>
-            <div className='w-11/12 p-3 border '>
-                <CodeMirror 
-                    value = {value}
-                    ref={codemirrorRef}
-                    options={{
-                        
-                        theme : 'twilight',
-                        mode: 'javascript',
-                        lineNumbers : true,
-                        extraKeys: {"Ctrl-Space": "autocomplete"},
-                        mode: {name: "javascript", globalVars: true},
-                        
-                    }}
-                    
-                    onBeforeChange={(editor, data, value) => {
+           
+            <div className='w-11/12 p-3 border  '>
 
-                        setValue(value);
-                    }}
+                {isLoading ? 
+                    <div className=" w-9/12  h-[600px] z-10 absolute flex">
+                        <div className='m-auto'>
+                            <ClipLoader
+                                color="red"
+                                size = {40}
+                            />
+                        </div>
+                           
+                </div>: null}
+                
+                <div className='rounded-lg overflow-hidden'>
+                    <CodeMirror 
+                        value = {value}
+                        ref={codemirrorRef}
+                        options={{
+                                
+                            theme : 'gruvbox-dark',
+                            mode: 'javascript',
+                            lineNumbers : true,
+                            extraKeys: {"Ctrl-Space": "autocomplete"},
+                            mode: {name: "javascript", globalVars: true},
+                                
+                        }}
+                            
+                         onBeforeChange={(editor, data, value) => {
 
-                    onChange={handleCodeChange}
+                                setValue(value);
+                            }}
 
-                />
+                        onChange={handleCodeChange}
+                    />
+                </div>
             </div>
             
             <div className='text-center border flex flex-col p-2'>
+                <button onClick={onSave} className='border border-gray-400 py-0.5 px-1.5 my-2 text-wrap hover:bg-gray-400'>
+                        Save
+                    </button>
                 <button onClick={onSubmit} className='border border-gray-400 py-0.5 px-1.5 my-2 text-wrap hover:bg-gray-400'>
                     Run
                 </button>
@@ -137,7 +153,6 @@ const TextEditor = () => {
                     Clear
                 </button>
             </div>
-            
         </div>
     )
 }

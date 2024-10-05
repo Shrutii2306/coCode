@@ -26,7 +26,7 @@ export const getNewSession = async({sessionName, maxParticipant}) => {
 
             const res = await fetch(NEW_SESSION_URL, requestOptions);
             const response = await res.json();
-            console.log(response);
+            // console.log(response);
             return response;
         }catch(err){
 
@@ -66,7 +66,7 @@ export const useGetSession = (sessionId) => {
                 
                 const res = await fetch(GET_SESSION_URL, requestOptions);
                 const response = await res.json();
-                console.log(response);
+                // console.log(response);
                 setSessionData(response);
                 dispatch(setSession({sessionId :response.sessionId, sessionName : response.sessionName, sessionStatus : response.status, sessionMembers : response.participants, hostId: response.hostId}))
 

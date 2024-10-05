@@ -23,7 +23,7 @@ const SessionMembersTab = () => {
     },[hostId])
     return (
 
-        <div className="w-2/12 border text-center">
+        <div className="border text-center">
             <span className="my-2 text-lg font-semibold flex flex-col">Session Members</span>
 
             <div className="border border-gray-200 text-start p-2">
@@ -33,8 +33,6 @@ const SessionMembersTab = () => {
             <div className="flex flex-col text-start p-2">
                 <span className="font-semibold">Members:</span>
                 {sessionMembers && sessionMembers.map((member, index) => {
-
-                    console.log("member",typeof member);
                     return (
                         <div key={index}>
                         <MemberName userId={member}/>

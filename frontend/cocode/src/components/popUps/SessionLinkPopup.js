@@ -5,6 +5,7 @@ import { PiShareNetworkDuotone } from "react-icons/pi";
 import { setLinkPopup } from "../../redux/variableSlice";
 import { RxCross1 } from "react-icons/rx";
 import { useState } from "react";
+import { ShimmerTitleUI } from "../shimmerUI/ShimmerUI";
 
 const SessionLinkPopUp = () =>{
 
@@ -31,8 +32,13 @@ const SessionLinkPopUp = () =>{
                 
             </div>
             :
-            <div>
-                Share the following <span className="font-semibold">Session-ID</span> with others: <span className="font-bold">{sessionId}</span>
+            <div className="flex h-7">
+                Share the following <span className="font-semibold mx-1"> Session-ID </span> with others: 
+                {sessionId?
+                    <span className="font-bold mx-2">{sessionId}</span> :
+                    <ShimmerTitleUI width={307}/>
+                }
+                
                 <button className="mx-2 my-1" onClick={async() => {await navigator.clipboard.writeText(sessionId);  setIsCopied(true);}}>
                 {isCopied? <span className="text-green-600"> Copied! </span>:<PiCopy title="Copy link" size={20}/>}
                 </button>
