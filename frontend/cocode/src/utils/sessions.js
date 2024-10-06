@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { CHECK_SESSION_ID, EXIT_SESSION_URL, GET_SESSION_URL, JOIN_SESSION_URL, NEW_SESSION_URL, SESSION_HISTORY_URL } from "./constants";
 import { useDispatch } from "react-redux";
 import { setSession } from "../redux/sessionSlice";
+import { useLastCheckpoint } from "./codeHistories";
+import { setData } from "../redux/codeSlice";
 
 export const getNewSession = async({sessionName, maxParticipant}) => {
 
@@ -69,7 +71,7 @@ export const useGetSession = (sessionId) => {
                 // console.log(response);
                 setSessionData(response);
                 dispatch(setSession({sessionId :response.sessionId, sessionName : response.sessionName, sessionStatus : response.status, sessionMembers : response.participants, hostId: response.hostId}))
-
+                
             } catch (error) {
                 
                 console.log(error);
@@ -79,8 +81,9 @@ export const useGetSession = (sessionId) => {
 
     
         fetchSessionData();
+        dispatch(setData({savedBy:'', savedAt :'' }));
     },[])
-
+    useLastCheckpoint();
     return sessionData;
 }
 

@@ -32,7 +32,8 @@ let clients = [];
 wss.on('connection', (ws) => {
   console.log('Client connected');
   clients.push(ws);
-
+  // clients.filter(client => client.sessionId == ws.sessionId);
+ 
   // Listen for incoming messages from a client
   ws.on('message', (message) => {
     const data = JSON.parse(message);
@@ -45,7 +46,8 @@ wss.on('connection', (ws) => {
             // console.log(wss.clients)
           client.send(JSON.stringify({
             type: 'codeUpdate',
-            code: data.code
+            code: data.code,
+            sessionId : data.sessionId
           }));
         }
       });

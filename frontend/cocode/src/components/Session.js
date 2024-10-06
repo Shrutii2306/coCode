@@ -9,6 +9,7 @@ import SessionMembersTab from "./sessionComponents/SessionMembersTab";
 import TextEditor from "./editor/TextEditor";
 import SessionTitle from "./sessionComponents/SessionTitle";
 import { ShimmerTitleUI } from "./shimmerUI/ShimmerUI";
+import { VscSaveAll } from "react-icons/vsc";
 
 const Session = () =>{
 
@@ -43,33 +44,34 @@ const Session = () =>{
     },[sessionId])
     return (
 
-        <div className="flex px-3 ">
+        <div className="flex justify-between pl-3 ">
             
-            <div className="w-10/12 flex flex-col">
-            <div className="mx-auto my-3 flex w-[100%] px-7">
-                <SessionTitle title={sessionName} status={sessionStatus} />
-                <div className="self-end">
-                    <EndSessionButton />
+            <div className="w-11/12 flex flex-col">
+                <div className="mx-auto my-3 flex w-[100%] px-7">
+                    <SessionTitle title={sessionName} status={sessionStatus} />
+                    {sessionStatus && <div className="self-end">
+                        <EndSessionButton />
+                    </div>}
+                    
                 </div>
-            </div>
-            <SessionLinkPopUp />
-                
-                
-               
-                    {savedBy ? <div className="text-sm mt-5">
-                        Last saved by {savedBy} at {new Date(savedAt).toLocaleString("en-IN", 
-                                {
-                                    timeStyle: "short",
-                                    dateStyle: "short",
-                                    timeZone: "Asia/Kolkata"
-                                })}
-                            </div>:
-                            <div className="h-5">
-                                <ShimmerTitleUI width={360} marginTop={18} variant={'secondary'}/>
-                            </div>
-                        
-                    }
-                        <TextEditor />
+                <SessionLinkPopUp />
+            
+                { console.log("savedby", savedBy)}
+                {savedBy  ? <div className="text-sm mt-5 flex items-center">
+                    <span className="mx-2"><VscSaveAll size={22}/></span>
+                    Last saved at {new Date(savedAt).toLocaleString("en-IN", 
+                    {
+                        timeStyle: "short",
+                        dateStyle: "short",
+                        timeZone: "Asia/Kolkata"
+                    })}
+                    </div>:
+                    
+                    <div className="h-5">
+                        <ShimmerTitleUI width={360} marginTop={18} variant={'secondary'}/>
+                    </div>
+                }
+                <TextEditor sessionId={sessionId}/>
                 
             </div>
             <SessionMembersTab/>

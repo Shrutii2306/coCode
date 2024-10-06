@@ -32,11 +32,13 @@ const SessionLinkPopUp = () =>{
                 
             </div>
             :
-            <div className="flex h-7">
-                Share the following <span className="font-semibold mx-1"> Session-ID </span> with others: 
+            <div className="flex ">
+                Share the following Session-ID with others: 
                 {sessionId?
                     <span className="font-bold mx-2">{sessionId}</span> :
+                    <div className="h-7">
                     <ShimmerTitleUI width={307}/>
+                    </div>
                 }
                 
                 <button className="mx-2 my-1" onClick={async() => {await navigator.clipboard.writeText(sessionId);  setIsCopied(true);}}>

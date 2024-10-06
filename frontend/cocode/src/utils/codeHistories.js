@@ -34,12 +34,12 @@ export const saveCodeSnippet = async(code, sessionId, hostId) => {
         if(res.ok){
 
             
-            alert("code saved successfully!");
+            // alert("code saved successfully!");
             return true;
         }
         else{
 
-            alert("Couldn't save, please try again.");
+            // alert("Couldn't save, please try again.");
             return false;
         }
     } catch (error) {
@@ -89,6 +89,8 @@ export const useLastCheckpoint = () => {
                 }else{
 
                     console.log(res);
+                    dispatch(setData({savedBy:'', savedAt :'' }))
+
                 }
 
                 dispatch(setLoader(false));
@@ -96,6 +98,7 @@ export const useLastCheckpoint = () => {
                 
                 console.log(error);
                 alert("Something went wrong");
+                dispatch(setData({savedBy:'', savedAt :'' }))
                 dispatch(setLoader(false));
             }
         

@@ -3,9 +3,12 @@ import { Controlled as CodeMirror} from 'react-codemirror2';
 import { saveCodeSnippet, useLastCheckpoint } from '../../utils/codeHistories';
 import ClipLoader from 'react-spinners/ClipLoader'
 import { useSelector } from "react-redux";
+import { Button, DownloadButton } from './ActionButton';
+import { FiPlay, FiSave } from "react-icons/fi";
+import { PiTextTSlash } from "react-icons/pi";
 require('./codeMirrorImports');
 
-const TextEditor = () => {
+const TextEditor = ({sessionId}) => {
 
     const text = useLastCheckpoint();
     const {isLoading} = useSelector((store) => store.codeSnippet);
@@ -13,7 +16,7 @@ const TextEditor = () => {
     const [socket,setSocket] = useState() ;
     const codemirrorRef = useRef(null);
     const debounceTimeoutRef = useRef(null);
-    const {sessionId, hostId} = useSelector((store) => store.session);
+    const { hostId, sessionStatus} = useSelector((store) => store.session);
     const [value, setValue] = useState(text);
 
     const handleDebouncedCode = (value) => {
@@ -23,12 +26,11 @@ const TextEditor = () => {
         debounceTimeoutRef.current = setTimeout(() => {
             if(isSocketOpen && socket && socket.readyState === WebSocket.OPEN){
 
-                console.log(socket)
-                socket.send(JSON.stringify({ type:'codeUpdate', code:value}));
+                console.log("socket", socket)
+                socket.send(JSON.stringify({ type:'codeUpdate', code:value , sessionId:sessionId}));
             }
             else{
     
-                console.log(socket)
                 console.log('Websocket not opened');
             }
           },2000);  // Delay by 500ms (adjust as needed)
@@ -44,9 +46,18 @@ const TextEditor = () => {
 
         const saved =await saveCodeSnippet(JSON.stringify(value), sessionId, hostId);
         if(saved){
+            alert('Code saved successfully');
             window.location.reload();
         }
     }
+
+    
+
+        // setInterval(async()=>{
+
+        //     const saved =await saveCodeSnippet(JSON.stringify(value), sessionId, hostId);
+        //     console.log("saved");
+        // },1000*30);
 
     const onSubmit = async() => {
 
@@ -71,7 +82,8 @@ const TextEditor = () => {
     
         ws.onmessage = (message) => {
           const data = JSON.parse(message.data);
-          if (data.type === 'codeUpdate') {
+          console.log("data",data.sessionId, sessionId,data.sessionId == sessionId );
+          if (data.type === 'codeUpdate' && data.sessionId == sessionId) {
             setValue(data.code); // Update code when receiving a broadcast message
           }
         };
@@ -101,6 +113,17 @@ const TextEditor = () => {
         setValue(text);
     },[text])
 
+    useEffect(() => {
+
+        const saveTimer = setInterval(async()=>{
+
+            await saveCodeSnippet(JSON.stringify(value), sessionId, hostId);
+            console.log('saved at', Date.now().toLocaleString());
+        }, 1000*30 );
+
+        return () => clearInterval(saveTimer);
+
+    })
     return(
 
         <div className='flex my-5'>
@@ -128,10 +151,9 @@ const TextEditor = () => {
                             mode: 'javascript',
                             lineNumbers : true,
                             extraKeys: {"Ctrl-Space": "autocomplete"},
-                            mode: {name: "javascript", globalVars: true},
-                                
+                            mode: {name: "javascript", globalVars: true},                                
                         }}
-                            
+                        
                          onBeforeChange={(editor, data, value) => {
 
                                 setValue(value);
@@ -143,15 +165,16 @@ const TextEditor = () => {
             </div>
             
             <div className='text-center border flex flex-col p-2'>
-                <button onClick={onSave} className='border border-gray-400 py-0.5 px-1.5 my-2 text-wrap hover:bg-gray-400'>
-                        Save
-                    </button>
-                <button onClick={onSubmit} className='border border-gray-400 py-0.5 px-1.5 my-2 text-wrap hover:bg-gray-400'>
-                    Run
+                <button onClick={onSave} >
+                    <Button title='Save' icon={< FiSave />} color='green'/>
                 </button>
-                <button onClick={() => setValue('')} className='border border-gray-400 py-0.5 px-1.5 my-2 text-wrap hover:bg-gray-400 '>
-                    Clear
+                <button onClick={onSubmit} >
+                    <Button title='Run' icon={< FiPlay />} color='blue' />
                 </button>
+                <button onClick={() => setValue('')} >
+                    <Button title='Clear' icon={< PiTextTSlash />} color='red' />
+                </button>
+                <DownloadButton code={value}/>
             </div>
         </div>
     )

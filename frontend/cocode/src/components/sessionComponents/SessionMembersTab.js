@@ -23,18 +23,18 @@ const SessionMembersTab = () => {
     },[hostId])
     return (
 
-        <div className="border text-center">
+        <div className="border-l text-center px-4">
             <span className="my-2 text-lg font-semibold flex flex-col">Session Members</span>
 
-            <div className="border border-gray-200 text-start p-2">
+            <div className="border-t border-gray-200 text-start p-2 ">
                 <span className="font-semibold">Host:</span> {hostName}
             </div>
 
-            <div className="flex flex-col text-start p-2">
-                <span className="font-semibold">Members:</span>
+            <div className="flex flex-col text-start p-2 border-t">
+                <span className="font-semibold mb-1">Members:</span>
                 {sessionMembers && sessionMembers.map((member, index) => {
                     return (
-                        <div key={index}>
+                        <div key={index} className="border-b pb-1">
                         <MemberName userId={member}/>
                         </div>
                     )
