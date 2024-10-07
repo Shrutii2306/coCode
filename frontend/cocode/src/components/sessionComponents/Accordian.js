@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
-import { FaChevronDown, FaCircle } from "react-icons/fa";
-import { FaChevronUp } from "react-icons/fa";
+import {  useState } from "react";
+import { FaChevronDown,FaChevronUp, FaCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 const Accordian = ({data, title}) => {
 

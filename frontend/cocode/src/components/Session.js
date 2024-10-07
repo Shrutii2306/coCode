@@ -19,7 +19,7 @@ const Session = () =>{
     const session = useGetSession(sessionId);
     const {sessionName, sessionStatus} = useSelector((store) => store.session)
     const {savedAt, savedBy, isLoading} = useSelector((store) => store.codeSnippet);
-    console.log(isLoading);
+   
     useEffect(()=>{
 
         const isUserLoggedIn = async() => {
@@ -44,9 +44,10 @@ const Session = () =>{
     },[sessionId])
     return (
 
-        <div className="flex justify-between pl-3 ">
+        <div>
+        <div className="justify-between pl-3 ">
             
-            <div className="w-11/12 flex flex-col">
+            <div className="flex flex-col relative z-10">
                 <div className="mx-auto my-3 flex w-[100%] px-7">
                     <SessionTitle title={sessionName} status={sessionStatus} />
                     {sessionStatus && <div className="self-end">
@@ -55,16 +56,14 @@ const Session = () =>{
                     
                 </div>
                 <SessionLinkPopUp />
-            
-                { console.log("savedby", savedBy)}
-                {savedBy  ? <div className="text-sm mt-5 flex items-center">
+                {!isLoading  ? <div className="text-sm mt-5 flex items-center">
                     <span className="mx-2"><VscSaveAll size={22}/></span>
-                    Last saved at {new Date(savedAt).toLocaleString("en-IN", 
+                    {savedAt!='' && `Last saved at ${new Date(savedAt).toLocaleString("en-IN", 
                     {
                         timeStyle: "short",
                         dateStyle: "short",
                         timeZone: "Asia/Kolkata"
-                    })}
+                    })}`}
                     </div>:
                     
                     <div className="h-5">
@@ -73,6 +72,7 @@ const Session = () =>{
                 }
                 <TextEditor sessionId={sessionId}/>
                 
+            </div>
             </div>
             <SessionMembersTab/>
         </div>

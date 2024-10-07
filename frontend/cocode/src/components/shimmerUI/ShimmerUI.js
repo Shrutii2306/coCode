@@ -1,6 +1,6 @@
 import { ShimmerTitle } from "react-shimmer-effects";
 
-export const ShimmerTitleUI = ({height, width,marginTop, variant}) => {
+export const ShimmerTitleUI = ({ width,marginTop, variant}) => {
 
     return (
 

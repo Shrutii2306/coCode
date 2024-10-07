@@ -81,24 +81,30 @@ export const useLastCheckpoint = () => {
 
                 const res = await fetch(GET_CHECKPOINT_URL, requestOptions);
                 const response = await res.json();
+
                 if(res.ok){
                     
-                    const savedBy = await getUserName(response?.lastCheckpoint?.savedBy);
-                    setLastCheckpoint(await JSON.parse(response?.lastCheckpoint?.code));
-                    dispatch(setData({savedBy, savedAt :response?.lastCheckpoint?.savedAt }))
-                }else{
+                    if(response.lastCheckpoint){
 
+                        const code = await JSON.parse(response?.lastCheckpoint?.code)
+                        const savedBy = await getUserName(response?.lastCheckpoint?.savedBy);
+                        setLastCheckpoint(code);
+                        dispatch(setData({savedBy, savedAt :response?.lastCheckpoint?.savedAt }))
+                    }
+                else{
                     console.log(res);
+                     setLastCheckpoint('');
                     dispatch(setData({savedBy:'', savedAt :'' }))
 
-                }
+                }}
 
                 dispatch(setLoader(false));
             } catch (error) {
                 
-                console.log(error);
-                alert("Something went wrong");
+                console.log('error',error)
+                setLastCheckpoint('');
                 dispatch(setData({savedBy:'', savedAt :'' }))
+
                 dispatch(setLoader(false));
             }
         

@@ -1,12 +1,12 @@
 import { useSelector } from "react-redux";
 import { TbFileDownload } from "react-icons/tb";
 
-export const Button = ({title,icon, color}) => {
+export const Button = ({title,icon}) => {
 
     return(
-        <div className={`border rounded-md items-center text-sm flex border-gray-400 py-0.5 px-1.5 my-2 text-wrap hover:w-[101%] hover:h-[66%] hover:shadow-lg hover:bg-gray-400 hover:font-medium hover:border-gray-700 justify-center`}>
+        <div title={title} className={`border rounded-md items-center text-sm flex border-gray-400 py-0.5 px-1.5 my-2 text-wrap hover:shadow-lg hover:bg-gray-400 hover:font-medium hover:border-gray-700 justify-center`}>
            {icon}
-            <span className='mx-1'>{title}</span>
+            <span className='mx-1 '>{title}</span>
         </div>
     )
 }
@@ -43,9 +43,9 @@ export const DownloadButton = ({code}) =>{
     
 
     return(
-        <button className={`border rounded-md items-center text-sm flex border-gray-400 py-1 px-1.5 my-2 text-wrap hover:w-[101%] hover:shadow-lg hover:bg-gray-400 hover:font-medium hover:border-gray-700`}onClick={download}>
+        <button title="Download code" className={`border rounded-md items-center text-sm flex border-gray-400 py-1 px-1.5 my-2 text-wrap hover:shadow-lg hover:bg-gray-400 hover:font-medium hover:border-gray-700 justify-center`} onClick={download}>
            <TbFileDownload />
-            <span className='mx-1 text-xs'>Download</span>
+            <span className='mx-1 text-xs '>Download</span>
         </button>
     )
 }

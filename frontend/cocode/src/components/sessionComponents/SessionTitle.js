@@ -14,7 +14,7 @@ const SessionTitle = ({title, status}) => {
                         <FaCircle color={status ? "green" : "red"}size={12} />
                     </div>
                 </div>: 
-                <ShimmerTitleUI height={20} width={150} marginTop={20}/>
+                <ShimmerTitleUI width={150} marginTop={20} variant={'primary'}/>
             } 
         </div>
     )

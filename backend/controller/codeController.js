@@ -16,7 +16,11 @@ const saveHistory = async(req, res) => {
                 savedBy: id,
                 savedAt: Date.now()
             }
-            
+
+            // if the history array has more than 20 documents
+            if(history.codeSnippets.length>=20)
+                history.codeSnippets.shift();
+
             history.codeSnippets.push(newHistory);
             await history.save();
             return res.status(200).send({message: "History updated successfully", history : history});
@@ -54,7 +58,7 @@ const getLastCheckPoint = async(req, res) => {
         const history = await CodeHistory.findOne({sessionId});
         if(!history){
 
-            return res.status(404).send({message: "no history found"});
+            return res.status(202).send({});
         }
 
         const result = history.codeSnippets[history.codeSnippets.length -1];

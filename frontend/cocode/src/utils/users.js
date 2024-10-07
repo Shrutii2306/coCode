@@ -146,10 +146,8 @@ export const loggedInUser = async() =>{
             return null;
         }
         const jwtInfo = jwtDecode(token);
-        console.log("jwtInfo", jwtInfo);
-        console.log(Math.floor(new Date().getTime()/1000), jwtInfo.exp);
+        // console.log("jwtInfo", jwtInfo);
         const currentDate = Math.floor(new Date().getTime()/1000);
-        console.log(currentDate > jwtInfo.exp)
 
         if(currentDate > jwtInfo.exp){
             

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Controlled as CodeMirror} from 'react-codemirror2';
-import { saveCodeSnippet, useLastCheckpoint } from '../../utils/codeHistories';
+import { executeCode, saveCodeSnippet, useLastCheckpoint } from '../../utils/codeHistories';
 import ClipLoader from 'react-spinners/ClipLoader'
 import { useSelector } from "react-redux";
 import { Button, DownloadButton } from './ActionButton';
@@ -18,6 +18,7 @@ const TextEditor = ({sessionId}) => {
     const debounceTimeoutRef = useRef(null);
     const { hostId, sessionStatus} = useSelector((store) => store.session);
     const [value, setValue] = useState(text);
+    const [output, setOutput] = useState();
 
     const handleDebouncedCode = (value) => {
 
@@ -26,7 +27,6 @@ const TextEditor = ({sessionId}) => {
         debounceTimeoutRef.current = setTimeout(() => {
             if(isSocketOpen && socket && socket.readyState === WebSocket.OPEN){
 
-                console.log("socket", socket)
                 socket.send(JSON.stringify({ type:'codeUpdate', code:value , sessionId:sessionId}));
             }
             else{
@@ -45,6 +45,7 @@ const TextEditor = ({sessionId}) => {
     const onSave = async() => {
 
         const saved =await saveCodeSnippet(JSON.stringify(value), sessionId, hostId);
+
         if(saved){
             alert('Code saved successfully');
             window.location.reload();
@@ -52,17 +53,27 @@ const TextEditor = ({sessionId}) => {
     }
 
     
-
-        // setInterval(async()=>{
-
-        //     const saved =await saveCodeSnippet(JSON.stringify(value), sessionId, hostId);
-        //     console.log("saved");
-        // },1000*30);
-
     const onSubmit = async() => {
 
-        console.log(JSON.stringify(value), sessionId, hostId);
-        
+        let consoleOutput = '';
+        const customConsole = {
+
+            log: (...args) =>{
+                consoleOutput += args.join('') +'\n';
+            }
+        };
+
+        try{
+            const run = new Function('console',value);
+             run(customConsole);
+            setOutput(consoleOutput || 'No output');
+            // console.log("output", output);
+
+        }catch(err){
+
+        console.log(err);
+        setOutput(`Error: ${err.message}`);
+        }
     }
 
     useEffect(() => {
@@ -82,7 +93,7 @@ const TextEditor = ({sessionId}) => {
     
         ws.onmessage = (message) => {
           const data = JSON.parse(message.data);
-          console.log("data",data.sessionId, sessionId,data.sessionId == sessionId );
+       
           if (data.type === 'codeUpdate' && data.sessionId == sessionId) {
             setValue(data.code); // Update code when receiving a broadcast message
           }
@@ -111,27 +122,32 @@ const TextEditor = ({sessionId}) => {
     useEffect(()=>{
         
         setValue(text);
+        
     },[text])
 
     useEffect(() => {
 
         const saveTimer = setInterval(async()=>{
 
-            await saveCodeSnippet(JSON.stringify(value), sessionId, hostId);
-            console.log('saved at', Date.now().toLocaleString());
+            if(sessionStatus && value!='')
+            {
+                await saveCodeSnippet(JSON.stringify(value), sessionId, hostId);
+            console.log('saved at', Date.now().toLocaleString());}
         }, 1000*30 );
 
         return () => clearInterval(saveTimer);
 
     })
+
     return(
 
-        <div className='flex my-5'>
+        <div className='my-5 md:flex  sm:block'>
            
-            <div className='w-11/12 p-3 border  '>
+           {/* text area */}
+            <div className=' p-3 border md:w-[50%] sm:w-[100%]'>
 
                 {isLoading ? 
-                    <div className=" w-9/12  h-[600px] z-10 absolute flex">
+                    <div className=" z-10 absolute flex md:w-[45%] sm:w-[100%] h-[600px]">
                         <div className='m-auto'>
                             <ClipLoader
                                 color="red"
@@ -151,7 +167,9 @@ const TextEditor = ({sessionId}) => {
                             mode: 'javascript',
                             lineNumbers : true,
                             extraKeys: {"Ctrl-Space": "autocomplete"},
-                            mode: {name: "javascript", globalVars: true},                                
+                            mode: {name: "javascript", globalVars: true},   
+                            readOnly:sessionStatus? false:'nocursor'
+
                         }}
                         
                          onBeforeChange={(editor, data, value) => {
@@ -164,7 +182,8 @@ const TextEditor = ({sessionId}) => {
                 </div>
             </div>
             
-            <div className='text-center border flex flex-col p-2'>
+            {/* buttons */}
+            <div className='text-center border flex md:flex-col p-2 border-l-0sm:justify-evenly md:justify-normal'>
                 <button onClick={onSave} >
                     <Button title='Save' icon={< FiSave />} color='green'/>
                 </button>
@@ -175,6 +194,15 @@ const TextEditor = ({sessionId}) => {
                     <Button title='Clear' icon={< PiTextTSlash />} color='red' />
                 </button>
                 <DownloadButton code={value}/>
+            </div>
+
+            {/* output */}
+            <div className='border border-l-0 flex md:w-[40%] sm:w-[100%] p-3 '>
+                
+                    <div className='w-[100%] bg-[#494949] rounded-lg p-3 text-wrap text-white' >
+                        <span className='font-semibold text-lg text-gray-200'>Output:</span><br/>
+                        {output}
+                    </div>                
             </div>
         </div>
     )

@@ -23,7 +23,7 @@ const SessionLinkPopUp = () =>{
     return (
 
 
-        <div className="bg-gray-200 p-2 w-fit rounded-md">
+        <div className="bg-gray-200 p-2 w-fit rounded-md mr-3">
             {!linkPopup ? 
             <div>
                 <button onClick={togglePopup }>
@@ -37,7 +37,7 @@ const SessionLinkPopUp = () =>{
                 {sessionId?
                     <span className="font-bold mx-2">{sessionId}</span> :
                     <div className="h-7">
-                    <ShimmerTitleUI width={307}/>
+                    <ShimmerTitleUI width={307} marginTop={0} variant={'primary'}/>
                     </div>
                 }
                 

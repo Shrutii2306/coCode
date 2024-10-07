@@ -13,6 +13,7 @@ const EndSession = () =>{
         if(newStatus==true){
 
             dispatch(setSessionStatus(false));
+            
         }
         else{
 
